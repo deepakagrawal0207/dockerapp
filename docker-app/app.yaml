@@ -14,6 +14,6 @@ spec:
     spec:
       containers:
       - name: my-image
-        image: acr0706.azurecr.io/docker-app:latest
+        image: acr0806.azurecr.io/docker-app:latest
         ports:
         - containerPort: 80
