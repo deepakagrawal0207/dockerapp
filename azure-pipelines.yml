@@ -34,3 +34,10 @@ stages:
         tags: |
           $(imagetag)
           latest
+    - task: CopyFiles@2
+      inputs:
+        SourceFolder: '**'
+        Contents: |
+          app.yaml
+          service.yaml
+        TargetFolder: '$(Build.ArtifactStagingDirectory)/menifest'
