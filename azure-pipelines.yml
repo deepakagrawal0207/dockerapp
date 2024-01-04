@@ -36,7 +36,7 @@ stages:
           latest
     - task: CopyFiles@2
       inputs:
-        SourceFolder: '**'
+        SourceFolder: $(System.DefaultWorkingDirectory)/docker-app
         Contents: |
           app.yaml
           service.yaml
