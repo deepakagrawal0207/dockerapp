@@ -4,44 +4,33 @@
 # https://aka.ms/yaml
 
 trigger: none
+variables:
+  acrname: acr03012024
+  imagetag: $(Build.BuildId)
 
-
-pool:
-  vmImage: ubuntu-latest
-
-steps:
-- task: Docker@2
-  displayName: Build Docker Image
-  inputs:
-    containerRegistry: 'ADO-ACR-Connect'
-    repository: 'docker-app-image'
-    command: 'build'
-    Dockerfile: '**/Dockerfile'
-    tags: |
-      $(Build.BuildId)
-      latest
-- task: Docker@2
-  displayName: push Docker Image to ACR
-  inputs:
-    containerRegistry: 'ADO-ACR-Connect'
-    repository: 'docker-app-image'
-    command: 'push'
-    tags: |
-      $(Build.BuildId)
-      latest
-- task: KubernetesManifest@1
-  displayName: deploy deployment menifest file
-  inputs:
-    action: 'deploy'
-    connectionType: 'kubernetesServiceConnection'
-    kubernetesServiceConnection: 'ADO-AKS-Connect'
-    manifests: 'docker-app/app.yaml'
-    containers: 'acr03012024.azurecr.io/docker-app-image:latest'
-- task: KubernetesManifest@1
-  displayName: deploy service menifest file
-  inputs:
-    action: 'deploy'
-    connectionType: 'kubernetesServiceConnection'
-    kubernetesServiceConnection: 'ADO-AKS-Connect'
-    manifests: 'docker-app/service.yaml'
-    containers: 'acr03012024.azurecr.io/docker-app-image:latest'
+stages:
+- stage: Build
+  jobs:
+  - job: Build
+    pool:
+      vmImage: ubuntu-latest
+    steps:
+    - task: Docker@2
+      displayName: Build Docker Image
+      inputs:
+        containerRegistry: 'ADO-ACR-Connect'
+        repository: 'docker-app-image'
+        command: 'build'
+        Dockerfile: '**/Dockerfile'
+        tags: |
+          $(imagetag)
+          latest
+    - task: Docker@2
+      displayName: push Docker Image to ACR
+      inputs:
+        containerRegistry: 'ADO-ACR-Connect'
+        repository: 'docker-app-image'
+        command: 'push'
+        tags: |
+          $(imagetag)
+          latest
