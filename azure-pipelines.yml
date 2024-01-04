@@ -72,19 +72,19 @@ stages:
           enableRecursion: false
           useLegacyPattern: false
           enableTelemetry: true
-    # - task: KubernetesManifest@1
-    #   displayName: deploy deployment menifest file
-    #   inputs:
-    #     action: 'deploy'
-    #     connectionType: 'kubernetesServiceConnection'
-    #     kubernetesServiceConnection: 'ADO-AKS-Connect'
-    #     manifests: 'docker-app/app.yaml'
-    #     containers: 'acr03012024.azurecr.io/docker-app-image:latest'
-    # - task: KubernetesManifest@1
-    #   displayName: deploy service menifest file
-    #   inputs:
-    #     action: 'deploy'
-    #     connectionType: 'kubernetesServiceConnection'
-    #     kubernetesServiceConnection: 'ADO-AKS-Connect'
-    #     manifests: 'docker-app/service.yaml'
-    #     containers: 'acr03012024.azurecr.io/docker-app-image:latest'
+      - task: KubernetesManifest@1
+        displayName: deploy deployment menifest file
+        inputs:
+          action: 'deploy'
+          connectionType: 'kubernetesServiceConnection'
+          kubernetesServiceConnection: 'ADO-AKS-Connect'
+          manifests: '$(Pipeline.Workspace)/app.yaml'
+          containers: '$(acrname).azurecr.io/docker-app-image:$(imagetag)'
+      - task: KubernetesManifest@1
+        displayName: deploy service menifest file
+        inputs:
+          action: 'deploy'
+          connectionType: 'kubernetesServiceConnection'
+          kubernetesServiceConnection: 'ADO-AKS-Connect'
+          manifests: '$(Pipeline.Workspace)/service.yaml'
+          containers: '$(acrname).azurecr.io/docker-app-image:$(imagetag)'
