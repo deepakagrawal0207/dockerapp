@@ -41,3 +41,8 @@ stages:
           app.yaml
           service.yaml
         TargetFolder: '$(Build.ArtifactStagingDirectory)/menifest'
+    - task: PublishPipelineArtifact@1
+      inputs:
+        targetPath: '$(Build.ArtifactStagingDirectory)/menifest'
+        artifact: 'k8s-atrifacts'
+        publishLocation: 'pipeline'
