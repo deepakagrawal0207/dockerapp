@@ -14,6 +14,6 @@ spec:
     spec:
       containers:
       - name: my-image
-        image: acr03012024.azurecr.io/docker-app-image:latest
+        image: #{acrname}#.azurecr.io/docker-app-image:#{imagetag}#
         ports:
         - containerPort: 80
