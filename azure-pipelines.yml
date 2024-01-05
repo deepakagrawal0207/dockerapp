@@ -5,7 +5,7 @@
 
 trigger: none
 variables:
-  acrname: acr03012024
+  acrname: acr05012024
   imagetag: $(Build.BuildId)
 
 stages:
@@ -18,7 +18,7 @@ stages:
     - task: Docker@2
       displayName: Build Docker Image
       inputs:
-        containerRegistry: 'ADO-ACR-Connect'
+        containerRegistry: 'ADO-ACR-050124'
         repository: 'docker-app-image'
         command: 'build'
         Dockerfile: '**/Dockerfile'
@@ -28,7 +28,7 @@ stages:
     - task: Docker@2
       displayName: push Docker Image to ACR
       inputs:
-        containerRegistry: 'ADO-ACR-Connect'
+        containerRegistry: 'ADO-ACR-050124'
         repository: 'docker-app-image'
         command: 'push'
         tags: |
